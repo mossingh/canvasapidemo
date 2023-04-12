@@ -1,33 +1,35 @@
 <head>
     <script type="text/javascript">
-      // Global variables.
-      var ballX = 150; // Ball x position.
-      var ballY = 150; // Ball y position.
-      var ballDX = 4; // Change in ball x position.
-      var ballDY = 2; // Change in ball y position.
-      var boardX = 400; // Board width.
-      var boardY = 400; // Board height.
-      var paddleY = 150; // Initial paddle location.
-      var paddleH = 150; // Paddle height.
-      var paddleW = 10; // Paddle width.
-      var paddleD = boardX - paddleW; // Paddle depth.
-      var canvas; // Canvas element.
-      var ctx; // Canvas context.
-      var gameLoop; // Game loop time interval.
-      // This function is called on page load.
+      // global variables
+      var ballX = 150; // ball x position
+      var ballY = 150; // ball y position.
+      var ballDX = 4; // change in ball x position
+      var ballDY = 2; // change in ball y position
+      var ballDX2 = 6; // other change in x position
+      var ballDY2 = 5; // other change in y position
+      var boardX = 400; // board width
+      var boardY = 400; // board height
+      var paddleY = 150; // initial paddle y coordinate
+      var paddleH = 100; // paddle height
+      var paddleW = 10; // paddle width
+      var paddleD = boardX - paddleW; // paddle depth
+      var canvas; // canvas element
+      var ctx; // canvas context
+      var gameLoop; // game loop time interval
+
       function drawGameCanvas() {
 
-        // Get the canvas element.
+        // get canvas element
         canvas = document.getElementById("gameBoard");
 
         if (canvas.getContext) {
-          // Specify 2d canvas type.
+          // Specify canvas type
           ctx = canvas.getContext("2d");
 
-          // Play the game until the ball stops.
+          // Play game until the ball stops
           gameLoop = setInterval(drawBall, 16);
 
-          // Add keyboard listener.
+          // Add keyboard listener
           window.addEventListener('keydown', whatKey, true);
 
         }
@@ -35,44 +37,42 @@
 
       function drawBall() {
 
-        // Clear the board.
+        // clear the board
         ctx.clearRect(0, 0, boardX, boardY);
 
-        // Fill the board.
-        ctx.fillStyle = "thistle";
+        // fill the board
+        ctx.fillStyle = "pink";
         ctx.beginPath();
         ctx.rect(0, 0, boardX, boardY);
         ctx.closePath();
         ctx.fill();
 
-        // Draw a ball.
-        ctx.fillStyle = "tomato";
+        // draw a ball
+        ctx.fillStyle = "hotpink";
         ctx.beginPath();
         ctx.arc(ballX, ballY, 15, 0, Math.PI * 2, true);
         ctx.closePath();
         ctx.fill();
 
-        // Draw the paddle.
-        ctx.fillStyle = "navy";
+        // draw the paddle
+        ctx.fillStyle = "deeppink";
         ctx.beginPath();
         ctx.rect(paddleD, paddleY, paddleW, paddleH);
         ctx.closePath();
         ctx.fill();
 
-        // Change the ball location.
+        // change the ball location
         ballX += ballDX;
         ballY += ballDY;
-
-        // Bounce on a left or right edge.
+        // bounce off the top, bottom, or left edge
         if (ballX + ballDX < 15) ballDX = -ballDX;
-        if(ballY + ballDY > boardY - 15) ballDY = -ballDY;
-        // If ball hits the top, bounce it. 
+        if (ballY + ballDY > boardY - 15) ballDY = -ballDY;
         if (ballY + ballDY < 15) ballDY = -ballDY;
-        // If the ball hits the right, check see if it hits a paddle.
+        // if the ball hits the right, check see if it hits the paddle
         else if (ballX + ballDX > boardX - 15) {
-          // If the ball hits the paddle, bounce it.
+          // if the ball hits the paddle, bounce off it
           if (ballY > paddleY && ballY < paddleY + paddleH) ballDX = -ballDX;
-          // Otherwise the game is over.
+          // otherwise end the game
           else {
             clearInterval(gameLoop);
             alert("Game over!");
@@ -80,9 +80,7 @@
         }
       }
 
-      // Get key press.
-
-
+      // handle key presses
       function whatKey(evt) {
 
         switch (evt.keyCode) {
